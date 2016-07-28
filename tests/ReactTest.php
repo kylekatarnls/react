@@ -50,6 +50,7 @@ class ReactTest extends PHPUnit_Framework_TestCase
     {
         $react = new React(__DIR__ . '/test.jsx');
         $this->assertSame(null, $react->getSourceMapFile());
+        $this->assertSame(null, $react->getSourceMap());
 
         $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
         $react->write($file);
