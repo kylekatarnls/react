@@ -40,4 +40,26 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $react = new React(__DIR__ . '/test.jsx');
         $react->fallback();
     }
+
+    public function testGetSourceMapFile()
+    {
+        $react = new React(__DIR__ . '/test.jsx');
+        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
+        $react->write($file);
+
+        $this->assertSame($file . '.map', $react->getSourceMapFile());
+    }
+
+    public function testGetSourceMap()
+    {
+        $react = new React(__DIR__ . '/test.jsx');
+        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
+        $react->write($file);
+        $expected = explode('{DIRECTORY}', trim(file_get_contents(__DIR__ . '/test.js.map')));
+        $expected = implode('.*', array_map(function ($part) {
+            return preg_quote($part, '/');
+        }, $expected));
+
+        $this->assertSame(1, preg_match('/^' . $expected . '$/', trim($react->getSourceMap())));
+    }
 }
