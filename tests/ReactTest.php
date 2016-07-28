@@ -26,9 +26,14 @@ class ReactTest extends PHPUnit_Framework_TestCase
     {
         $expected = static::simpleJs(file_get_contents(__DIR__ . '/test.js'));
         $react = new React(__DIR__ . '/test.jsx');
-        $react = static::simpleJs($react->compile());
+        $javascript = static::simpleJs($react->compile());
 
-        $this->assertSame($expected, $react, 'React should render JSX with node.');
+        $this->assertSame($expected, $javascript, 'React should render JSX with node.');
+
+        $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
+        $react->write($file);
+        $javascript = static::simpleJs(file_get_contents($file));
+        $this->assertSame($expected, $javascript, 'React should render JSX with node.');
     }
 
     /**
@@ -44,6 +49,8 @@ class ReactTest extends PHPUnit_Framework_TestCase
     public function testGetSourceMapFile()
     {
         $react = new React(__DIR__ . '/test.jsx');
+        $this->assertSame(null, $react->getSourceMapFile());
+
         $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
         $react->write($file);
 
