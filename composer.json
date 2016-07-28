@@ -1,0 +1,34 @@
+{
+    "name": "nodejs-php-fallback/react",
+    "description": "PHP wrapper to execute babel with react-jsx trasformer plugin or fallback to a PHP alternative.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Kyle",
+            "email": "kylekatarnls@gmail.com"
+        }
+    ],
+    "require": {
+        "nodejs-php-fallback/nodejs-php-fallback": "^1.2.3"
+    },
+    "suggest": {
+        "reactjs/react-php-v8js": "*"
+    },
+    "extra": {
+        "npm": {
+            "babel-cli": "^6.10.1",
+            "babel-plugin-transform-react-jsx": "^6.8.0",
+            "babel-preset-react": "^6.11.1"
+        }
+    },
+    "require-dev": {
+        "composer/composer": "^1.2",
+        "phpunit/phpunit": ">=4.0",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "NodejsPhpFallback\\": "src/"
+        }
+    }
+}
