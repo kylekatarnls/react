@@ -48,15 +48,14 @@ class React extends Wrapper
         $outFile = escapeshellarg($destination);
         $logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'error.log';
         $appDirectory = NodejsPhpFallback::getPrefixPath();
-        $babel = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', '.bin', 'babel')) . '.cmd';
         $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
         $transform = escapeshellarg($transform);
         $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
         $transform = escapeshellarg($transform);
         $preset = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-react'));
         $preset = escapeshellarg($preset);
-        $input = $babel . ' --presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
-        $output = shell_exec($input . ' > ' . escapeshellarg($logFile));
+        $arguments = '--presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
+        $output = $this->execModuleScript('babel-cli', 'bin/babel.js', $arguments);
         if (is_null($output)) {
             $output = file_get_contents($destination);
         }
