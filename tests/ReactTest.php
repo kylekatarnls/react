@@ -64,8 +64,10 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'test.js';
         $react->write($file);
         $expected = json_decode(trim(file_get_contents(__DIR__ . '/test.js.map')));
+        $expected = static::simpleJs($expected[0]);
         $map = json_decode($react->getSourceMap());
         $map = $map->sourcesContent;
+        $map = static::simpleJs($map[0]);
 
         $this->assertSame($expected, $map);
     }
