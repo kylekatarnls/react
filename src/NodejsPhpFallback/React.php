@@ -50,8 +50,6 @@ class React extends Wrapper
         $appDirectory = NodejsPhpFallback::getPrefixPath();
         $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
         $transform = escapeshellarg($transform);
-        $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
-        $transform = escapeshellarg($transform);
         $preset = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-react'));
         $preset = escapeshellarg($preset);
         $arguments = '--presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
