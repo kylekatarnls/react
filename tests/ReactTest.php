@@ -46,6 +46,16 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $react->fallback();
     }
 
+    /**
+     * @expectedException \ErrorException
+     * @expectedExceptionCode 3
+     */
+    public function testBadSyntax()
+    {
+        $react = new React('<!!>Bad<Syntax!');
+        $react->compile();
+    }
+
     public function testGetSourceMapFile()
     {
         $react = new React(__DIR__ . '/test.jsx');
