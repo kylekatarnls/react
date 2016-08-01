@@ -54,7 +54,12 @@ class React extends Wrapper
         $preset = escapeshellarg($preset);
         $arguments = '--presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
         $arguments .= '> ' . escapeshellarg($logFile);
+        ob_start();
         $output = $this->execModuleScript('babel-cli', 'bin/babel.js', $arguments);
+        $buffer = ob_get_clean();
+        if (!empty($buffer)) {
+            throw new \ErrorException("Command: $input\nOutput: $buffer", 3);
+        }
         if (is_null($output) && file_exists($destination)) {
             $output = file_get_contents($destination);
         }
