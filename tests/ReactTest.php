@@ -48,7 +48,7 @@ class ReactTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \ErrorException
-     * @expectedExceptionCode 3
+     * @expectedExceptionCode 2
      */
     public function testBadSyntax()
     {

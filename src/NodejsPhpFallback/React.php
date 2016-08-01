@@ -46,29 +46,19 @@ class React extends Wrapper
         $destination = $this->lastFile;
         $inFile = escapeshellarg($path);
         $outFile = escapeshellarg($destination);
-        $logFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'error.log';
         $appDirectory = NodejsPhpFallback::getPrefixPath();
         $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
         $transform = escapeshellarg($transform);
         $preset = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-react'));
         $preset = escapeshellarg($preset);
         $arguments = '--presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
-        $arguments .= '> ' . escapeshellarg($logFile);
-        ob_start();
+        $arguments .= ' 2>&1';
         $output = $this->execModuleScript('babel-cli', 'bin/babel.js', $arguments);
-        $buffer = ob_get_clean();
-        if (!empty($buffer)) {
-            throw new \ErrorException("Command: $input\nOutput: $buffer", 3);
+        if (preg_match('/Exception|Error/i', $output)) {
+            throw new \ErrorException("Command error: $output", 2);
         }
         if (is_null($output) && file_exists($destination)) {
             $output = file_get_contents($destination);
-        }
-        if (file_exists($logFile)) {
-            $error = file_get_contents($logFile);
-            unlink($logFile);
-            if (!empty($error)) {
-                throw new \ErrorException("Command: $input\nOutput: $error", 2);
-            }
         }
 
         return $output;
