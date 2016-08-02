@@ -9,6 +9,8 @@ php:
   - hhvm
 
 before_script:
+  - travis_retry pecl install v8js
+  - echo "extension=v8js.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
 
