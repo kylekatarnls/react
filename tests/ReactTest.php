@@ -84,7 +84,7 @@ class ReactTest extends PHPUnit_Framework_TestCase
 
     public function testFallbackSuccess()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') < 0 && extension_loaded('v8js')) {
+        if (version_compare(PHP_VERSION, '7.0.0') < 0 || !extension_loaded('v8js')) {
             return $this->markTestSkipped('This test can be done only with PHP >= 7 and ext-v8js installed.');
         }
         shell_exec('composer require reactjs/react-php-v8js ">=2.0.0" 2>&1');
