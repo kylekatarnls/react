@@ -51,8 +51,12 @@ class React extends Wrapper
         $transform = escapeshellarg($transform);
         $preset = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-react'));
         $preset = escapeshellarg($preset);
-        $arguments = '--presets ' . $preset . ' --plugins ' . $transform . ' ' . $inFile . '  --out-file ' . $outFile . ' --source-maps --debug';
-        $arguments .= ' 2>&1';
+        $arguments =
+            '--presets ' . $preset .
+            ' --plugins ' . $transform . ' ' . $inFile .
+            ' --out-file ' . $outFile .
+            ' --source-maps --debug' .
+            ' 2>&1';
         $output = $this->execModuleScript('babel-cli', 'bin/babel.js', $arguments);
         if (preg_match('/Exception|Error/i', $output)) {
             throw new \ErrorException("Command error: $output", 2);
@@ -68,7 +72,7 @@ class React extends Wrapper
     {
         $fallback = 'ReactJS';
         if (!class_exists($fallback)) {
-            throw new \ErrorException("If you can not use the native babel npm package, you have to install the v8js PHP extension (or update it to 0.1.3 or a newer version), then install a ReactJS with the command: composer require reactjs/react-php-v8js >=2.0.0", 1);
+            throw new \ErrorException("If you can not use the native babel npm package, you have to install the v8js PHP extension (or update it to 0.1.3 or a newer version), then install a ReactJS with the command: composer require reactjs/react-php-v8js '>=2.0.0'", 1);
         }
 
         $app = file_get_contents(__DIR__ . '/../../lib/react.js') .
