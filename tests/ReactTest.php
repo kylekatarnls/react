@@ -84,13 +84,16 @@ class ReactTest extends PHPUnit_Framework_TestCase
 
     public function testFallbackSuccess()
     {
+        if (version_compare(PHP_VERSION, '7.0.0') < 0 && extension_loaded('v8js')) {
+            return $this->markTestSkipped('This test can be done only with PHP >= 7 and ext-v8js installed.');;
+        }
         shell_exec('composer require reactjs/react-php-v8js ">=2.0.0" 2>&1');
         $reactFile = __DIR__ . '/../vendor/reactjs/react-php-v8js/ReactJS.php';
         if (!file_exists($reactFile)) {
             $reactFile = __DIR__ . '/../../../vendor/reactjs/react-php-v8js/ReactJS.php';
         }
         if (!file_exists($reactFile)) {
-            $this->markTestSkipped('This test can be done only with reactjs/react-php-v8js installed.');
+            throw new \ErrorException('reactjs/react-php-v8js installation failed.', 1);
         }
         include_once $reactFile;
         $expected = static::simpleJs(file_get_contents(__DIR__ . '/test.js'));
