@@ -8,8 +8,11 @@ php:
   - '7.0'
   - hhvm
 
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install libv8-dev libv8-dbg g++ cpp -y
+
 before_script:
-  - apt-get install libv8-dev libv8-dbg g++ cpp
   - travis_retry php tests/installV8js.php
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
