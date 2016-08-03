@@ -3,10 +3,10 @@
 if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
     foreach (array(
         'git clone https://github.com/phpv8/v8js.git',
-        'cd v8js'
+        'cd v8js',
         'make -f Makefile.travis before_install',
         'make -f Makefile.travis install',
-        'cd ..'
+        'cd ..',
         'printf "\n" | pecl install -f v8js',
         'echo "extension=v8js.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini',
     ) as $command) {
