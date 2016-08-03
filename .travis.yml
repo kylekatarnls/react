@@ -9,8 +9,8 @@ php:
   - hhvm
 
 before_install:
-  - sudo apt-get -qq update
   - sudo apt-get install libv8-dev libv8-dbg g++ cpp -y
+  - sudo apt-get -qq update
 
 before_script:
   - travis_retry php tests/installV8js.php
