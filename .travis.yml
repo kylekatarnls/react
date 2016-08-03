@@ -9,7 +9,7 @@ php:
   - hhvm
 
 before_install:
-  - sudo add-apt-repository ppa:pinepain/libv8-5.2
+  - sudo add-apt-repository ppa:pinepain/libv8-5.2 -y
   - sudo apt-get -qq update
   - sudo apt-get install libv8-dev libv8-dbg g++ cpp -y
 
