@@ -46,6 +46,28 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $react->compile();
     }
 
+    public function testGoodSyntaxWithErrorWord()
+    {
+        $expected = static::simpleJs(
+            "/** @jsx dom */\n" .
+            "var dom = React.createElement;\n" .
+            "ReactDOM.render(dom(\"div\", { error: this.getException() }), document.getElementById(\"map\"));"
+        );
+        $react = new React(
+            "/** @jsx dom */\n" .
+            "var dom = React.createElement;\n" .
+            "ReactDOM.render(\n" .
+            "    <div error={this.getException()} />,\n" .
+            "    document.getElementById(\"map\")\n" .
+            ");"
+        );
+        $javascript = static::simpleJs($react->compile());
+        $javascript = explode('//# sourceMappingURL=', $javascript);
+        $javascript = trim($javascript[0]);
+
+        $this->assertSame($expected, $javascript, 'React should render code with error word.');
+    }
+
     public function testGetSourceMapFile()
     {
         $react = new React(__DIR__ . '/test.jsx');
