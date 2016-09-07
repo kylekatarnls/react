@@ -51,13 +51,13 @@ class React extends Wrapper
             return escapeshellarg(implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-' . $plugin)));
         }, array(
             'transform-es2015-arrow-functions',
-            'transform-react-jsx'
+            'transform-react-jsx',
         )));
         $presets = implode(',', array_map(function ($preset) use ($appDirectory) {
             return escapeshellarg(implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-' . $preset)));
         }, array(
             // 'es2015',
-            'react'
+            'react',
         )));
         $arguments =
             '--presets ' . $presets .
