@@ -47,13 +47,21 @@ class React extends Wrapper
         $inFile = escapeshellarg($path);
         $outFile = escapeshellarg($destination);
         $appDirectory = NodejsPhpFallback::getPrefixPath();
-        $transform = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-transform-react-jsx'));
-        $transform = escapeshellarg($transform);
-        $preset = implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-react'));
-        $preset = escapeshellarg($preset);
+        $plugins = implode(',', array_map(function ($plugin) use ($appDirectory) {
+            return escapeshellarg(implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-plugin-' . $plugin)));
+        }, array(
+            'transform-es2015-arrow-functions',
+            'transform-react-jsx'
+        )));
+        $presets = implode(',', array_map(function ($preset) use ($appDirectory) {
+            return escapeshellarg(implode(DIRECTORY_SEPARATOR, array($appDirectory, 'node_modules', 'babel-preset-' . $preset)));
+        }, array(
+            // 'es2015',
+            'react'
+        )));
         $arguments =
-            '--presets ' . $preset .
-            ' --plugins ' . $transform . ' ' . $inFile .
+            '--presets ' . $presets .
+            ' --plugins ' . $plugins . ' ' . $inFile .
             ' --out-file ' . $outFile .
             ' --source-maps --debug' .
             ' 2>&1';

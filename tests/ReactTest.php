@@ -94,6 +94,15 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expected, $map);
     }
 
+    public function testLambda()
+    {
+        $react = new React('_ => 5');
+        $actual = static::simpleJs($react->compile());
+        $expected = '/^\(function\s+\(_\)\s+\{\s+return\s+5;\s+\}\)/';
+
+        $this->assertRegExp($expected, $actual);
+    }
+
     /**
      * @expectedException \ErrorException
      * @expectedExceptionCode 1
