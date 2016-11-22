@@ -49,15 +49,17 @@ class ReactTest extends PHPUnit_Framework_TestCase
     public function testGoodSyntaxWithErrorWord()
     {
         $expected = static::simpleJs(
-            "/** @jsx dom */\n" .
+            "\"use strict\";\n\n" .
+            "/** @jsx dom */\n\n" .
             "var dom = React.createElement;\n" .
-            "ReactDOM.render(dom(\"div\", { error: this.getException() }), document.getElementById(\"map\"));"
+            "ReactDOM.render(dom(\"div\", { error: foo.getException() }), document.getElementById(\"map\"));"
         );
         $react = new React(
+            "\"use strict\";\n\n" .
             "/** @jsx dom */\n" .
             "var dom = React.createElement;\n" .
             "ReactDOM.render(\n" .
-            "    <div error={this.getException()} />,\n" .
+            "    <div error={foo.getException()} />,\n" .
             "    document.getElementById(\"map\")\n" .
             ");"
         );
@@ -98,7 +100,7 @@ class ReactTest extends PHPUnit_Framework_TestCase
     {
         $react = new React('_ => 5');
         $actual = static::simpleJs($react->compile());
-        $expected = '/^\(function\s+\(_\)\s+\{\s+return\s+5;\s+\}\)/';
+        $expected = '/^"use\sstrict";\s+\(function\s+\(_\)\s+\{\s+return\s+5;\s+\}\)/';
 
         $this->assertRegExp($expected, $actual);
     }

@@ -1,3 +1,5 @@
+"use strict";
+
 /** @jsx dom */
 var dom = React.createElement;
 
