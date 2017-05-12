@@ -11,6 +11,11 @@ php:
   - '7.1'
   - hhvm
 
+matrix:
+  include:
+    - php: "5.3"
+      dist: precise
+
 before_install:
   - php tests/installV8js.php
 
