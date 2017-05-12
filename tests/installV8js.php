@@ -8,7 +8,7 @@ if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
         'make -f Makefile.travis before_install',
         'make -f Makefile.travis install',
         'cd ..',
-        'printf "/usr/lib\n" | pecl install -f v8js',
+        'printf "/usr/lib/v8\n" | pecl install -f v8js',
         'echo "extension=v8js.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini',
     ) as $command) {
         echo "\n$command\n\n";
