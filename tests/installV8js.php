@@ -2,7 +2,7 @@
 
 if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
     foreach (array(
-        'sudo apt-get install libv8-dev libv8-dbg g++ cpp',
+        'sudo apt-get install php-pear php5-dev libv8-dev libv8-dbg g++ cpp',
         'git clone https://github.com/phpv8/v8js.git',
         'cd v8js',
         'phpize',
