@@ -76,7 +76,8 @@ class ReactFallback
         $attributes = array();
         foreach ($element->attributes() as $key => $value) {
             if (is_array($value) || is_object($value)) {
-                $value = end($value);
+                $value = (array) $value;
+                $value = $value[0];
             }
             $attributes[$key] = $value;
         }
