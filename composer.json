@@ -11,9 +11,6 @@
     "require": {
         "nodejs-php-fallback/nodejs-php-fallback": "^1.2.3"
     },
-    "suggest": {
-        "reactjs/react-php-v8js": "*"
-    },
     "extra": {
         "npm": {
             "babel-cli": "^6.10.1",

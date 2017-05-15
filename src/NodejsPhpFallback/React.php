@@ -77,15 +77,8 @@ class React extends Wrapper
 
     public function fallback()
     {
-        $fallback = 'ReactJS';
-        if (!class_exists($fallback)) {
-            throw new \ErrorException("If you can not use the native babel npm package, you have to install the v8js PHP extension (or update it to 0.1.3 or a newer version), then install a ReactJS with the command: composer require reactjs/react-php-v8js '>=2.0.0'", 1);
-        }
+        $fallback = new ReactFallback($this->getSource());
 
-        $app = file_get_contents(__DIR__ . '/../../lib/react.js') .
-            file_get_contents(__DIR__ . '/../../lib/react-dom.js');
-        $react = new $fallback($app, $this->getSource());
-
-        return $react->getJS('#main');
+        return $fallback->parseJsx();
     }
 }

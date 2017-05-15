@@ -22,6 +22,34 @@ class ReactTest extends PHPUnit_Framework_TestCase
         return implode("\n", $value);
     }
 
+    protected static function flatJs($value)
+    {
+        $value = explode("\n", trim(str_replace(
+            array(
+                "\r",
+                'ReactDOM.render(dom(',
+                '), document',
+                '));',
+            ),
+            array(
+                '',
+                "ReactDOM.render(\ndom(",
+                "),\ndocument",
+                ")\n);",
+            ),
+            $value
+        )));
+
+        return implode("\n", array_filter(array_map(function ($line) {
+            $line = str_replace(array('"', ' '), '', trim($line));
+            if ($line === '' || substr($line, 0, 2) === '//') {
+                return false;
+            }
+
+            return $line;
+        }, $value)));
+    }
+
     public function testCompile()
     {
         $expected = static::simpleJs(file_get_contents(__DIR__ . '/test.js'));
@@ -105,33 +133,12 @@ class ReactTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp($expected, $actual);
     }
 
-    /**
-     * @expectedException \ErrorException
-     * @expectedExceptionCode 1
-     */
-    public function testFallbackFailure()
-    {
-        $react = new React(__DIR__ . '/test.jsx');
-        $react->fallback();
-    }
-
     public function testFallbackSuccess()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') < 0 || !extension_loaded('v8js')) {
-            return $this->markTestSkipped('This test can be done only with PHP >= 7 and ext-v8js installed.');
-        }
-        shell_exec('composer require reactjs/react-php-v8js ">=2.0.0" 2>&1');
-        $reactFile = __DIR__ . '/../vendor/reactjs/react-php-v8js/ReactJS.php';
-        if (!file_exists($reactFile)) {
-            $reactFile = __DIR__ . '/../../../vendor/reactjs/react-php-v8js/ReactJS.php';
-        }
-        if (!file_exists($reactFile)) {
-            throw new \ErrorException('reactjs/react-php-v8js installation failed.', 1);
-        }
-        include_once $reactFile;
-        $expected = static::simpleJs(file_get_contents(__DIR__ . '/test.js'));
+        $expected = static::flatJs(file_get_contents(__DIR__ . '/test.js'));
         $react = new React(__DIR__ . '/test.jsx');
-        $javascript = $react->fallback();
+        $javascript = static::flatJs($react->fallback());
+
         $this->assertSame($expected, $javascript, 'React should render JSX without node.');
     }
 }
