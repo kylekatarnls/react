@@ -2,8 +2,6 @@
 
 namespace NodejsPhpFallback;
 
-use SimpleXMLIterator;
-
 class ReactFallback
 {
     protected $source;
@@ -77,14 +75,15 @@ class ReactFallback
 
         $attributes = array();
         foreach ($element->attributes() as $key => $value) {
-            $attributes[$key] = is_array($value) || is_object($value)
-                ? end($value)
-                : $value;
+            if (is_array($value) || is_object($value)) {
+                $value = end($value);
+            }
+            $attributes[$key] = $value;
         }
 
         $args = array(
             $name,
-            empty($attributes) ? 'null' : json_encode($attributes)
+            empty($attributes) ? 'null' : json_encode($attributes),
         );
         $spaces = str_repeat(' ', $indent * 2);
 
