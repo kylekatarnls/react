@@ -21,10 +21,10 @@ matrix:
       dist: precise
 
 before_install:
-  - make -f Makefile.travis before_install
+  - php tests/travis.php before_install
 
 install:
-  - make -f Makefile.travis install
+  - php tests/travis.php install
 
 before_script:
   - travis_retry composer self-update
@@ -34,10 +34,10 @@ script:
   - vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.xml
 
 after_script:
-  - vendor/bin/test-reporter --coverage-report coverage.xml
+  - php tests/travis.php after_script
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - php tests/travis.php after_success
 
 addons:
   code_climate:
