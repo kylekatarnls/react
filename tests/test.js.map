@@ -1,1 +1,1 @@
-["/** @jsx dom */\r\nvar dom = React.createElement;\r\n\r\nReactDOM.render(\r\n    <h1>Hello, <em>world!</em> <button className=\"btn btn-primary\">OK</button></h1>,\r\n    document.getElementById('main')\r\n);\r\n"]
+["/** @jsx dom */\r\nvar dom = React.createElement;\r\n\r\nReactDOM.render(\r\n    <h1>Hello, <em>world!</em> <button className=\"btn btn-primary\">OK</button> <MyComponent options=\"foo\" /></h1>,\r\n    document.getElementById('main')\r\n);\r\n"]

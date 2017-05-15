@@ -17,7 +17,9 @@ ReactDOM.render(dom(
     "button",
     { className: "btn btn-primary" },
     "OK"
-  )
+  ),
+  " ",
+  dom(MyComponent, { options: "foo" })
 ), document.getElementById('main'));
 
 //# sourceMappingURL=test.js.map
